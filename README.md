@@ -312,7 +312,8 @@ for file in *.mp4; do
     echo "変換中: $file → $output_file"
 
     # FFmpeg を使って H.265 に変換
-    ffmpeg -i "$file" -vcodec libx265 -crf 30 -preset fast -c:a aac -b:a 64k "$output_file"
+    # ffmpeg -i "$file" -vcodec libx265 -crf 30 -preset faster -c:a aac -b:a 96k "$output_file"  # CPU
+    ffmpeg -i "$file" -vcodec hevc_nvenc -cq 28 -preset fast -c:a aac -b:a 96k "$output_file"  # GPU
 
     # 変換が成功した場合、元のファイルを削除
     if [ $? -eq 0 ]; then
